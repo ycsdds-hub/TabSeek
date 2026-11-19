@@ -1,0 +1,42 @@
+<UserControl x:Class="TabSeek.SearchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="White">
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="White" BorderBrush="{StaticResource Line}" BorderThickness="0,0,0,1" Padding="10,7">
+            <TextBlock x:Name="Header" Foreground="{StaticResource Muted}" TextTrimming="CharacterEllipsis">
+                위쪽 검색창에 입력하면 모든 드라이브에서 즉시 찾습니다.  예: <Run FontFamily="Consolas" Foreground="#111827">보고서 ext:pdf;hwp</Run>,
+                <Run FontFamily="Consolas" Foreground="#111827">*.psd</Run>, <Run FontFamily="Consolas" Foreground="#111827">folder: 사진</Run>,
+                <Run FontFamily="Consolas" Foreground="#111827">projects\src !test</Run>, <Run FontFamily="Consolas" Foreground="#111827">a|b</Run>
+            </TextBlock>
+        </Border>
+        <Border DockPanel.Dock="Bottom" Background="{StaticResource Chrome}" BorderBrush="{StaticResource Line}" BorderThickness="0,1,0,0" Padding="8,3">
+            <TextBlock x:Name="Status" Foreground="{StaticResource Muted}" FontSize="12"/>
+        </Border>
+        <ListView x:Name="List" Style="{StaticResource FileList}"
+                  MouseDoubleClick="List_MouseDoubleClick" PreviewKeyDown="List_PreviewKeyDown"
+                  PreviewMouseDown="List_PreviewMouseDown" ContextMenuOpening="List_ContextMenuOpening"
+                  SelectionChanged="List_SelectionChanged">
+            <ListView.ContextMenu><ContextMenu/></ListView.ContextMenu>
+            <ListView.View>
+                <GridView x:Name="Grid">
+                    <GridViewColumn Width="300" CellTemplate="{StaticResource NameCell}">
+                        <GridViewColumnHeader Tag="Name" Content="이름" Click="Header_Click"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="420" DisplayMemberBinding="{Binding Folder}">
+                        <GridViewColumnHeader Tag="Folder" Content="경로" Click="Header_Click"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100">
+                        <GridViewColumnHeader Tag="Size" Content="크기" Click="Header_Click"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate><TextBlock Text="{Binding SizeText}" TextAlignment="Right" MinWidth="80"/></DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="140" DisplayMemberBinding="{Binding ModifiedText}">
+                        <GridViewColumnHeader Tag="Modified" Content="수정한 날짜" Click="Header_Click"/>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</UserControl>

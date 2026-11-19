@@ -1,0 +1,64 @@
+<UserControl x:Class="TabSeek.FolderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="White">
+    <DockPanel>
+        <!-- toolbar -->
+        <Border DockPanel.Dock="Top" Background="White" BorderBrush="{StaticResource Line}" BorderThickness="0,0,0,1" Padding="6,5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="BackBtn" Style="{StaticResource ToolButton}" Content="&#xE72B;" ToolTip="뒤로 (Alt+←)" Click="Back_Click"/>
+                    <Button x:Name="FwdBtn" Style="{StaticResource ToolButton}" Content="&#xE72A;" ToolTip="앞으로 (Alt+→)" Click="Fwd_Click"/>
+                    <Button x:Name="UpBtn" Style="{StaticResource ToolButton}" Content="&#xE74A;" ToolTip="상위 폴더 (Backspace)" Click="Up_Click"/>
+                    <Button Style="{StaticResource ToolButton}" Content="&#xE72C;" ToolTip="새로 고침 (F5)" Click="Refresh_Click"/>
+                </StackPanel>
+                <Grid Grid.Column="1" Margin="6,0">
+                    <TextBox x:Name="Address" Style="{StaticResource HintBox}" Tag="경로 입력 (Ctrl+L)" KeyDown="Address_KeyDown" LostKeyboardFocus="Address_LostFocus"/>
+                    <!-- breadcrumb shown over the address box while it is not being edited -->
+                    <Border x:Name="CrumbHost" Background="White" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="5" Cursor="IBeam" MouseLeftButtonDown="Crumbs_MouseDown">
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" x:Name="CrumbScroll">
+                            <StackPanel x:Name="Crumbs" Orientation="Horizontal" Margin="3,0"/>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+                <TextBox x:Name="Filter" Grid.Column="2" Style="{StaticResource HintBox}" Tag="이 폴더에서 거르기 (Ctrl+F)" TextChanged="Filter_TextChanged" KeyDown="Filter_KeyDown"/>
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="{StaticResource Chrome}" BorderBrush="{StaticResource Line}" BorderThickness="0,1,0,0" Padding="8,3">
+            <TextBlock x:Name="Status" Foreground="{StaticResource Muted}" FontSize="12"/>
+        </Border>
+
+        <ListView x:Name="List" Style="{StaticResource FileList}"
+                  MouseDoubleClick="List_MouseDoubleClick" PreviewKeyDown="List_PreviewKeyDown"
+                  MouseDown="List_MouseDown" PreviewMouseDown="List_PreviewMouseDown"
+                  SelectionChanged="List_SelectionChanged" ContextMenuOpening="List_ContextMenuOpening"
+                  DragOver="List_DragOver" Drop="List_Drop">
+            <ListView.ContextMenu><ContextMenu/></ListView.ContextMenu>
+            <ListView.View>
+                <GridView x:Name="Grid">
+                    <GridViewColumn Width="380" CellTemplate="{StaticResource NameCell}">
+                        <GridViewColumnHeader Tag="Name" Content="이름" Click="Header_Click"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="140" DisplayMemberBinding="{Binding ModifiedText}">
+                        <GridViewColumnHeader Tag="Modified" Content="수정한 날짜" Click="Header_Click"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding TypeText}">
+                        <GridViewColumnHeader Tag="Type" Content="유형" Click="Header_Click"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100">
+                        <GridViewColumnHeader Tag="Size" Content="크기" Click="Header_Click"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate><TextBlock Text="{Binding SizeText}" TextAlignment="Right" MinWidth="80"/></DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</UserControl>
