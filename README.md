@@ -68,3 +68,8 @@ UI 스모크 테스트 (앱을 띄운 상태에서): `powershell -File tests/ui/
 - `tests/TabSeek.Core.Tests` — xUnit 테스트
 - `tests/ui/smoke.ps1` — UI Automation 스모크 테스트
 - `tools/make-icon.ps1` — 아이콘 생성
+
+## 변경 기록
+
+- 1.0.0 (2026-11-19): 첫 버전. 탭 탐색기, MFT 색인, 즉시 검색, 실시간 반영
+
